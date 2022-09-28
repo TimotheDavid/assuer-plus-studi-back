@@ -1,0 +1,22 @@
+name: 'deploy'
+
+on:
+  push:
+    branches:
+      - deploy
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: cloning repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name:
+        uses: dokku/github-action@master
+        with:
+          git-remote-url: 'ssh://dokku@studi.timothedavid.fr:22/assuerplus'
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ci_branch_name: deploy
