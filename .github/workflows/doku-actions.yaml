@@ -19,4 +19,4 @@ jobs:
         with:
           git_remote_url: 'ssh://dokku@studi.timothedavid.fr:22/assuerplus'
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
-          ci_branch_name: deploy
+          ci_branch_name: assuerplus
