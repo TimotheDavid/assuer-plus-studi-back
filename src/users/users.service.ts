@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import * as bcrypt from 'bcrypt';
@@ -12,7 +12,6 @@ export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createUserDto: CreateUserDto) {
-    console.log(createUserDto);
     createUserDto.password = this.hashPassword(createUserDto.password);
     await this.prisma.user.create({
       data: {
@@ -25,23 +24,20 @@ export class UsersService {
     const user = await this.findUserByEmail(loginDto.email);
 
     if (!user) {
-      throw Error('user not found');
+      throw new HttpException('user not found', HttpStatus.NOT_FOUND);
     }
-
-    console.log(user, loginDto);
-
     if (!bcrypt.compareSync(loginDto.password, user.password)) {
-      throw Error('password not matches');
+      throw new HttpException('password doesnt matches', HttpStatus.FORBIDDEN);
     }
 
     return await this.generateToken(user.id);
   }
 
   async generateToken(userId: string) {
-    const secretKey = 'secret';
+    const secretKey = process.env.SECRET_KEY;
     const refresh_hash = (Math.random() + 1).toString(36).substring(7);
     const access_hash = (Math.random() + 1).toString(36).substring(7);
-    const access_expires = Math.floor(Date.now() / 1000) + 60 * 60;
+    const access_expires: number = Math.floor(Date.now() / 1000) + 60 * 60;
     const refresh_expires = Math.floor(Date.now() / 1000) + 60 * 60 * 12;
 
     const access_token = jwt.sign({ hash: access_hash }, secretKey, {
@@ -56,8 +52,8 @@ export class UsersService {
       data: {
         access_token,
         refresh_token,
-        access_token_expires: access_expires.toString(),
-        refresh_token_expires: refresh_expires.toString(),
+        access_token_expires: access_expires,
+        refresh_token_expires: refresh_expires,
         access_token_hash: access_hash,
         refresh_token_hash: refresh_hash,
         user: {
@@ -70,6 +66,7 @@ export class UsersService {
     return {
       access_token: access_token,
       refresh_token: refresh_token,
+      expires: access_expires,
     };
   }
 
@@ -90,6 +87,9 @@ export class UsersService {
     return this.prisma.authentication.findFirst({
       where: {
         access_token: access,
+      },
+      orderBy: {
+        access_token_expires: 'asc',
       },
       select: {
         access_token_hash: true,

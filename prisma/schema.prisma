@@ -29,8 +29,8 @@ model Authentication {
   id                    String @id @default(uuid())
   access_token          String @unique
   refresh_token         String @unique
-  access_token_expires  String
-  refresh_token_expires String
+  access_token_expires  Int
+  refresh_token_expires Int
   access_token_hash     String
   refresh_token_hash    String
   userId                String

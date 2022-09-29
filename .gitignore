@@ -39,3 +39,4 @@ docker/
 
 # ENV
 !./.env
+/*.env

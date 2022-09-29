@@ -23,10 +23,8 @@ export class PicturesService {
     const picturesAccident = await this.getPictures(accidentId);
     const verifyObject = await this.verifyList(picturesAccident);
 
-    console.log(verifyObject);
     for (const picture of verifyObject) {
       const object = await this.getImagesFromBucket(picture.url);
-      console.log(object);
       const data = {
         name: picture.name,
         object: object.Body,
@@ -83,16 +81,13 @@ export class PicturesService {
 
     const listObjectPictures = listObject.Contents.map((object) => object.Key);
 
-    console.log(listObjectPictures);
     return picturesAccident.filter((pictures) => {
       return !listObjectPictures.includes(pictures.Key);
     });
   }
 
   async insertObject(data): Promise<string> {
-    console.log(data);
     const id = randomUUID();
-    console.log(this.s3init());
     await this.s3init()
       .putObject({
         Bucket: 'user',

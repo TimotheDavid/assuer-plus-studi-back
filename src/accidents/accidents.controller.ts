@@ -11,8 +11,8 @@ export class AccidentsController {
     this.accidentsService.create(accidents);
   }
 
-  @Get()
-  get(@Param() accidentId: string) {
+  @Get('/:id')
+  get(@Param('id') accidentId: string) {
     return this.accidentsService.get(accidentId);
   }
 }

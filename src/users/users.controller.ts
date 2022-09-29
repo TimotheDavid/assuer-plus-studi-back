@@ -13,7 +13,11 @@ export class UsersController {
   }
 
   @Post('/login')
-  login(@Body() loginUserDto: LoginUserDto) {
-    return this.usersService.login(loginUserDto);
+  async login(@Body() loginUserDto: LoginUserDto) {
+    const token = await this.usersService.login(loginUserDto);
+    return {
+      token: token.access_token,
+      expires: token.expires,
+    };
   }
 }
