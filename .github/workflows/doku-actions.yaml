@@ -17,6 +17,6 @@ jobs:
       - name:
         uses: dokku/github-action@master
         with:
-          git-remote-url: 'ssh://dokku@studi.timothedavid.fr:22/assuerplus'
+          git_remote_url: 'ssh://dokku@studi.timothedavid.fr:22/assuerplus'
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
           ci_branch_name: deploy
