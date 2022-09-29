@@ -10,70 +10,67 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
-    id String @id @default(uuid())
-    email String
-    password String
-    name String
-    firstname String
-    address String
-    postal_code String
-    contract_number String @default(uuid())
-    id_contract String @default(uuid())
-    imat String
-    authenticationId Authentication[]
-    accident Accident[]
+  id               String           @id @default(uuid())
+  email            String
+  password         String
+  name             String
+  firstname        String
+  address          String
+  postal_code      String
+  contract_number  String           @default(uuid())
+  id_contract      String           @default(uuid())
+  imat             String
+  authenticationId Authentication[]
+  accident         Accident[]
 }
 
 model Authentication {
-    id String @id @default(uuid())
-    access_token String @unique 
-    refresh_token String @unique
-    access_token_expires DateTime 
-    refresh_token_expires DateTime
-    access_token_hash String
-    refresh_token_hash String
-    userId String 
-    user User @relation(fields: [userId], references: [id]) 
+  id                    String @id @default(uuid())
+  access_token          String @unique
+  refresh_token         String @unique
+  access_token_expires  String
+  refresh_token_expires String
+  access_token_hash     String
+  refresh_token_hash    String
+  userId                String
+  user                  User   @relation(fields: [userId], references: [id])
 }
 
 model Accident {
-    id String @id @default(uuid())
-    description String
-    date DateTime
-    latitude String
-    longitude String
-    name String
-    first_name String
-    email String
-    driver_permit_number String
-    driver_permit_place String
-    driver_permit_date DateTime
-    userId String
-    user User @relation(fields: [userId], references: [id])
-    witness Witness[]
-    pictures Pictures[]
-
+  id                   String     @id @default(uuid())
+  description          String
+  date                 String
+  latitude             String
+  longitude            String
+  name                 String
+  first_name           String
+  email                String
+  driver_permit_number String
+  driver_permit_place  String
+  driver_permit_date   String
+  userId               String
+  user                 User       @relation(fields: [userId], references: [id])
+  witness              Witness[]
+  pictures             Pictures[]
 }
 
 model Witness {
-    id String @id @default(uuid())
-    name String
-    firstname String
-    email String
-    address String
-    postal_code String
-    city String
-    accidentId String
-    accident Accident @relation(fields: [accidentId], references: [id])
+  id          String   @id @default(uuid())
+  name        String
+  firstname   String
+  email       String
+  address     String
+  postal_code String
+  city        String
+  accidentId  String
+  accident    Accident @relation(fields: [accidentId], references: [id])
 }
 
 model Pictures {
-    id String @id @default(uuid())
-    name String
-    url String
-    accidentId String
-    accident Accident @relation(fields: [accidentId], references: [id])
-
+  id         String   @id @default(uuid())
+  name       String
+  url        String
+  accidentId String
+  accident   Accident @relation(fields: [accidentId], references: [id])
 }
