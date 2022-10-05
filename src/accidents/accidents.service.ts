@@ -67,11 +67,7 @@ export class AccidentsService {
         id: true,
       },
       data: {
-        user: {
-          connect: {
-            id: accidents.userId,
-          },
-        },
+        userId: accidents.userId,
       },
     });
   }
