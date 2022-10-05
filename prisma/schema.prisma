@@ -39,16 +39,16 @@ model Authentication {
 
 model Accident {
   id                   String     @id @default(uuid())
-  description          String
-  date                 String
-  latitude             String
-  longitude            String
-  name                 String
-  first_name           String
-  email                String
-  driver_permit_number String
-  driver_permit_place  String
-  driver_permit_date   String
+  description          String?
+  date                 String?
+  latitude             String?
+  longitude            String?
+  name                 String?
+  first_name           String?
+  email                String?
+  driver_permit_number String?
+  driver_permit_place  String?
+  driver_permit_date   String?
   userId               String
   user                 User       @relation(fields: [userId], references: [id])
   witness              Witness[]
