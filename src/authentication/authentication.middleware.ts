@@ -14,7 +14,6 @@ export class AuthenticationMiddleware implements NestMiddleware {
 
   async use(req: Request, res: Response, next: NextFunction) {
     const header = req.headers.authorization;
-
     if (!header) {
       throw new HttpException('header not found', HttpStatus.BAD_REQUEST);
     }
@@ -37,12 +36,12 @@ export class AuthenticationMiddleware implements NestMiddleware {
     }
 
 
-  /*  if (!jwt.verify(token)) {
-      throw new HttpException(
-        'token cannot be verified',
-        HttpStatus.BAD_REQUEST,
-      );
-    }*/
+    /*  if (!jwt.verify(token)) {
+        throw new HttpException(
+          'token cannot be verified',
+          HttpStatus.BAD_REQUEST,
+        );
+      }*/
 
 
     if (!user) {

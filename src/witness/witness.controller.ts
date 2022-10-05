@@ -8,9 +8,9 @@ import {CreateWitnessDto} from "./dto/create-witness.dto";
 export class WitnessController {
   constructor(private readonly witnessService: WitnessService) {}
 
-  @Get()
+  @Get('/:id')
   public getWitness(@Param('id') id: string) {
-    this.witnessService.getWitness(id);
+    return this.witnessService.getWitness(id);
   }
 
   @Post()

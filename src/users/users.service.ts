@@ -22,14 +22,12 @@ export class UsersService {
 
   async login(loginDto: LoginUserDto) {
     const user = await this.findUserByEmail(loginDto.email);
-
     if (!user) {
       throw new HttpException('user not found', HttpStatus.NOT_FOUND);
     }
     if (!bcrypt.compareSync(loginDto.password, user.password)) {
       throw new HttpException('password doesnt matches', HttpStatus.FORBIDDEN);
     }
-
     return await this.generateToken(user.id);
   }
 
@@ -63,10 +61,11 @@ export class UsersService {
         },
       },
     });
+
     return {
       access_token: access_token,
-      refresh_token: refresh_token,
       expires: access_expires,
+      userId,
     };
   }
 

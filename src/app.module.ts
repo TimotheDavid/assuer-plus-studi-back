@@ -25,6 +25,6 @@ export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): any {
     consumer
       .apply(AuthenticationMiddleware)
-      .forRoutes('pictures', 'accidents', 'witness');
+      .forRoutes('/pictures/**', '/accidents/**', '/witness/**');
   }
 }

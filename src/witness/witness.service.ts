@@ -7,9 +7,9 @@ export class WitnessService {
   constructor(private readonly prisma: PrismaService) {}
 
   getWitness(id: string) {
-    return this.prisma.witness.findFirst({
+    return this.prisma.witness.findMany({
       where: {
-        id,
+        accidentId: id,
       },
       select: {
         name: true,
@@ -24,7 +24,7 @@ export class WitnessService {
         email: witness.email,
         address: witness.address,
         city: witness.city,
-        postal_code: witness.postal_code,
+        postal_code: witness.postal_code.toString(),
         name: witness.name,
         firstname: witness.firstname,
         accident: {

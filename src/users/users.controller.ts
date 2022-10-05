@@ -18,6 +18,7 @@ export class UsersController {
     return {
       token: token.access_token,
       expires: token.expires,
+      userId: token.userId
     };
   }
 }
