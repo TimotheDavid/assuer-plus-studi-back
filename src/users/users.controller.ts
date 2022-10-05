@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
@@ -9,7 +19,14 @@ export class UsersController {
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+    if (process.env.SECURITY === 'true') {
+      return this.usersService.create(createUserDto);
+    } else {
+      return new HttpException(
+        'the routes is not allowed in production',
+        HttpStatus.FORBIDDEN,
+      );
+    }
   }
 
   @Post('/login')
@@ -18,7 +35,7 @@ export class UsersController {
     return {
       token: token.access_token,
       expires: token.expires,
-      userId: token.userId
+      userId: token.userId,
     };
   }
 }

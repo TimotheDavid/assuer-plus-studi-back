@@ -17,9 +17,9 @@ async function bootstrap() {
       'Access-Control-Allow-Origin',
       'Access-Control-Request-Method',
     ],
-    origin: process.env.ORIGINS || '*',
+    origin: process.env.ORIGINS || 'http://localhost:9090',
   });
-  await app.listen(process.env.PORT || 8080);
+  await app.listen(process.env.PORT || 3000);
 }
 
 bootstrap();
